@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block head %}
+    <style type="text/css">
+  .card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+  </style>
+{% endblock %}
+
+{% block main %}
+<div class="card bg-dark h-100 border border-gray-dark rounded">
+  <div class="card-body">
+    <form class="form-control form-control-lg bg-dark border border-dark" action="/add_dataset" method="POST" enctype = "multipart/form-data">
+      <div class="mb-3 row">
+        <label for="datasetName" class="col-sm-4 col-form-label text-white bg-dark">Dataset Name</label>
+        <div class="col-sm-8">
+          <input class="form-control form-control-lg" type="text" id="datasetName" placeholder="Dataset" name="datasetName" required>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="file" class="col-sm-4 col-form-label text-white bg-dark">Dataset File</label>
+        <div class="col-sm-8">
+          <input class="form-control form-control-lg" type="file" id="file" name="file" required>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-sm-2" id="loadingWidget"></div>
+        <div class="col-sm-8">
+          <button type="submit" class="btn btn-primary mb-3" id="uploadButton">Confirm Upload</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById("uploadButton").addEventListener("click", loadingWidget);
+  function loadingWidget() {
+    document.getElementById("loadingWidget").innerHTML = `<div class="spinner-border text-primary float-left"></div>`;
+  }
+</script>
+
+{% endblock %}

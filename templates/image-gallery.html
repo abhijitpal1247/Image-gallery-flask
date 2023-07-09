@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/image-gallery.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+
+<div class="gallery">
+	{% for i in range(0,(images| length)) %}
+		{% if i == 0 %}
+		<div class="gallery__column">
+			{% else %}
+				{% if i % 3 == 0 %}
+				</div>
+				<div class="gallery__column">
+					{% endif %}
+					{% endif %}
+				<a href="{{images[i]['caption']}}" target="_blank" class="gallery__link">
+					<figure class="gallery__thumb">
+						<img src="{{images[i]['image']}}" alt="{{images[i]['caption']}}" class="gallery__image">
+						<figcaption class="gallery__caption">{{images[i]['caption']}}</figcaption>
+					</figure>
+				</a>
+	{% endfor %}
+				</div>
+</div>
+{% endblock %}
+{% block footer %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination pagination-sm justify-content-center">
+	  {% if has_prev %}
+	  <li class="page-item"><a class="page-link" href="{{ min_pages-1 }}">Previous</a></li>
+	  {% endif %}
+	  {% for i in range(min_pages,total_pages+1) %}
+	  {% if i == page_no %}
+		  <li class="page-item disabled">
+			<a class="page-link" href="{{ i }}" tabindex="-1">{{ i }}</a>
+		  </li>
+		{% else %}
+	  <li class="page-item"><a class="page-link" href="{{ i }}">{{ i }}</a></li>
+	  {% endif %}
+	  {% endfor %}
+	  {% if has_next %}
+	  	<li class="page-item"><a class="page-link" href="{{ total_pages + 1 }}">Next</a></li>
+	  {% endif %}
+  </ul>
+</nav>
+</nav>
+{% endblock %}

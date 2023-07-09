@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block head %}
+  <style type="text/css">
+  .card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+  </style>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card bg-dark h-100">
+              <div class="card-body">
+                <p class="card-text text-white bg-dark">Upload dataset and save it. The dataset has to be in zip format</p>
+                <a href="file_upload" class="btn btn-primary">Upload Dataset</a>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg-dark h-100">
+              <div class="card-body">
+                <p class="card-text text-white bg-dark">Explore the saved Datasets. Image gallery to show the saved files.</p>
+                  {% if dataset_names %}
+                  <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Dataset
+                      </button>
+                  <ul class="dropdown-menu">
+                      {% for i in dataset_names %}
+                    <li><a class="dropdown-item" href="explore_dataset/{{ i }}/1">{{ i }}</a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                  {% else %}
+                    <p class="text-white bg-dark">No dataset available</p>
+                  {% endif %}
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+# Use root/example as user/password credentials
+version: '3.7'
+services:
+  mongodb:
+    image: mongo:latest
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+    networks:
+      - flask-webapp-network
+  flask:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
+    ports:
+      - '5000:5000'
+    volumes:
+      - './:/usr/src/app/'
+    depends_on:
+      - mongodb
+    environment:
+      FLASK_APP: app
+      USER_ID: 1000
+      GROUP_ID: 1000
+      MONGO_DB_USERNAME: root
+      MONGO_DB_PASSWORD: password
+      MONGO_DB_HOSTNAME: mongodb
+      MONGO_DB_PORT: 27017
+    networks:
+      - flask-webapp-network
+
+networks:
+  flask-webapp-network:
+    driver: bridge
+
+volumes:
+  mongodb_data_container:
